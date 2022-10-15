@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Section } from './Section';
 import { FeedbackOptions } from './FeedbackOptions';
 import { Notification } from "./Notification";
-import { Section } from './Section';
 import { Statistics } from './Statistics';
 
 export class App extends Component {
@@ -10,21 +10,33 @@ export class App extends Component {
     neutral: 0,
     bad: 0,
   };
-updateGoodValue = () => { this.setState(prevState => ({good: prevState.good + 1})) };
-updateNeutralValue = () => { this.setState(prevState => ({neutral: prevState.neutral + 1})) };
-updateBadValue = () => { this.setState(prevState => ({bad: prevState.bad + 1})) };
 
-countTotalFeedback = () => {
-  const totalFeedback = this.state.good + this.state.neutral + this.state.bad;
-  return totalFeedback;
+countTotalFeedback() {
+  return this.state.good + this.state.neutral + this.state.bad;
 };
-countPositiveFeedbackPercentage = () => {
-  const totalFeedback = this.state.good + this.state.neutral + this.state.bad;
-  return Math.round((this.state.good * 100) / totalFeedback);
+countPositiveFeedbackPercentage() {
+  const sum = this.countTotalFeedback();
+  return Math.round((this.state.good * 100) / sum);
 };
+
+// onChangeGoodValue = () => { 
+//   this.setState(prevState => ({good: prevState.good + 1})) };
+
+// onChangeNeutralValue = () => {
+//    this.setState(prevState => ({neutral: prevState.neutral + 1})) };
+
+// onChangeBadValue = () => {
+//    this.setState(prevState => ({bad: prevState.bad + 1})) };
+
+
+onSelectedBtn = e => { this.setState(prevState => ({
+  [e.target.name]: prevState[e.target.name] + 1,
+  }));
+};
+
 render() {
-  const totalFeedback = this.state.good + this.state.neutral + this.state.bad;
-
+  const sum = this.countTotalFeedback();
+  const perCent = this.countPositiveFeedbackPercentage();
 return (
     <div
     style={{
@@ -39,19 +51,21 @@ return (
     >
   <Section title="Please, leave feedback:">
     <FeedbackOptions
-      options={['GOOD', 'NEUTRAL', 'BAD']}
-      onLeaveFeedback={[this.updateGoodValue, this.updateNeutralValue,this.updateBadValue,]}
+      // options={['GOOD', 'NEUTRAL', 'BAD']}
+      // onLeaveFeedback={[this.onChangeGoodValue, this.onChangeNeutralValue,this.onChangeBadValue,]}
+      options={this.state}
+      onLeaveFeedback={this.onSelectedBtn}
     ></FeedbackOptions>
   </Section>
 
-  {totalFeedback === 0 ? ( <Notification message="There is no feedback!"/>) : 
-  (<Section title="Statistics">
+  {sum === 0 ? ( <Notification message="There is no feedback!"/>) : 
+  (<Section title="Statistics:">
     <Statistics
       good={this.state.good}
       neutral={this.state.neutral}
       bad={this.state.bad}
-      total={this.countTotalFeedback()}
-      positivePercentage={this.countPositiveFeedbackPercentage()}
+      total={sum}
+      positivePercentage={perCent}
     ></Statistics>
   </Section>
       )}

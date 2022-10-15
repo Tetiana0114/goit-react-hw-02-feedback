@@ -1,28 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
-  return ( 
-  <ul>
-      {options.map(option => {
-        return (
-          <button key={option} type="button" onClick={selectedBtn(option, onLeaveFeedback)}>{option}</button>);
-      })}
-    </ul>
+  const btnKeys = Object.keys(options);
+  return (
+      <ul>{btnKeys.map(btnKey => (
+      <button type="button" key={btnKey} name={btnKey} onClick={onLeaveFeedback}>{btnKey}</button>
+      ))}
+      </ul>
   );
 };
 
-function selectedBtn(option, onLeaveFeedback) {
-  if (option === 'GOOD') {
-    return onLeaveFeedback[0];
-  }
-  if (option === 'NEUTRAL') {
-    return onLeaveFeedback[1];
-  }
-  if (option === 'BAD') {
-    return onLeaveFeedback[2];
-  }
-}
 FeedbackOptions.propTypes = {
-  options: PropTypes.array.isRequired,
+  onLeaveFeedback: PropTypes.func.isRequired,
+  option: PropTypes.objectOf(PropTypes.number),
 };
