@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { ImSad, ImNeutral, ImSmile } from "react-icons/im";
 import css from './Statistics.module.css'
 
-export const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
+const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
   return (
     <ul className={css.list}>
       <li className={css.list_item}><ImSmile className={css.icon_good} size={36}/>
@@ -30,3 +30,4 @@ Statistics.propTypes = {
     total: PropTypes.number.isRequired,
     positivePercentage: PropTypes.number.isRequired,
 };
+export default Statistics;

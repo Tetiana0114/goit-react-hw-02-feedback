@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Section } from 'components/Section/Section';
-import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
-import { Notification } from "components/Notification/Notification";
-import { Statistics } from 'components/Statistics/Statistics';
+import Section from 'components/Section';
+import FeedbackOptions from 'components/FeedbackOptions';
+import Notification from 'components/Notification';
+import Statistics from 'components/Statistics';
 
 export class App extends Component {
+  static defaultProps = {
+    initialValue: 0,
+  };
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    good: this.props.initialValue,
+    neutral: this.props.initialValue,
+    bad: this.props.initialValue,
   };
 
 countTotalFeedback() {
@@ -18,16 +21,6 @@ countPositiveFeedbackPercentage() {
   const sum = this.countTotalFeedback();
   return Math.round((this.state.good * 100) / sum);
 };
-
-// onChangeGoodValue = () => { 
-//   this.setState(prevState => ({good: prevState.good + 1})) };
-
-// onChangeNeutralValue = () => {
-//    this.setState(prevState => ({neutral: prevState.neutral + 1})) };
-
-// onChangeBadValue = () => {
-//    this.setState(prevState => ({bad: prevState.bad + 1})) };
-
 
 onSelectedBtn = e => { this.setState(prevState => ({
   [e.target.name]: prevState[e.target.name] + 1,
@@ -40,7 +33,6 @@ render() {
 return (
     <div
     style={{
-      // height: '100vh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -51,8 +43,6 @@ return (
     >
   <Section title="Please, leave feedback:">
     <FeedbackOptions
-      // options={['GOOD', 'NEUTRAL', 'BAD']}
-      // onLeaveFeedback={[this.onChangeGoodValue, this.onChangeNeutralValue,this.onChangeBadValue,]}
       options={this.state}
       onLeaveFeedback={this.onSelectedBtn}
     ></FeedbackOptions>
