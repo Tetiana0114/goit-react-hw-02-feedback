@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { ImSad, ImNeutral, ImSmile } from "react-icons/im";
+// import css from './Statistics.module.css'
 
 export const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
   return (
